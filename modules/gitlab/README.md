@@ -41,10 +41,10 @@ module "gitlab_projects" {
 
 ## Example Usage (Guideline)
 
-- Clone desired CAF configuration, for demo purposes, you can use [Starter Configuration](https://github.com/Azure/caf-terraform-landingzones-starter)
+- Clone desired CAF launchpad and configuration repo, for demo purposes, you can use [CAF Launchpad repo](https://github.com/Azure/caf-terraform-landingzones)
 
 ```bash
-git clone https://github.com/Azure/caf-terraform-landingzones-starter
+git clone https://github.com/Azure/caf-terraform-landingzones public
 ```
 
 - Export required environment variables
@@ -60,13 +60,13 @@ export GITLAB_BASE_URL=<url_of_the_gitlab_server>
 - Provision Cloud Adoption Framework (CAF) Launchpad resources by executing the following script
 
 ```bash
-rover -lz /tf/caf/public/landingzones/caf_launchpad -launchpad -var-folder /tf/caf/configuration/${ENVIRONMENT}/level0/launchpad -parallelism 30 -level level0 -env ${ENVIRONMENT} -a apply
+rover -lz ./public/landingzones/caf_launchpad -launchpad -var-folder ./public/caf_launchpad/scenario/100 -parallelism 30 -level level0 -env ${ENVIRONMENT} -a apply
 ```
 
 - Add GitLab project and couple of project variables into Level 1 (_Foundation Level_)
 
 ```bash
-rover -lz /tf/modules/examples/ -var-folder /tf/modules/examples/devops/providers/gitlab/new_project/  -level level1 -env ${ENVIRONMENT} -a apply
+rover -lz ./examples/ -var-folder ./examples/gitlab/new_project/ -level level1 -env ${ENVIRONMENT} -a apply
 ```
 
 If you want to change the GitLab project configuration or project variables, see the example configuration in [examples/gitlab/new_project/gitlab_project.tfvars](./examples/gitlab/new_project/gitlab_project.tfvars) file;

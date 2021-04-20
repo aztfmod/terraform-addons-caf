@@ -43,10 +43,10 @@ module "azure_devops_projects" {
 
 ## Example Usage (Guideline)
 
-- Clone desired CAF configuration, for demo purposes, you can use [Starter Configuration](https://github.com/Azure/caf-terraform-landingzones-starter)
+- Clone desired CAF lanchpad and configuration repo, for demo purposes, you can use [CAF Launchpad repo](https://github.com/Azure/caf-terraform-landingzones)
 
 ```bash
-git clone https://github.com/Azure/caf-terraform-landingzones-starter
+git clone https://github.com/Azure/caf-terraform-landingzones public
 ```
 
 - Export required environment variables
@@ -64,13 +64,13 @@ export ARM_TENANT_ID=<azure_tenant_id>
 - Provision Cloud Adoption Framework (CAF) Launchpad resources by executing the following script
 
 ```bash
-rover -lz /tf/caf/public/landingzones/caf_launchpad -launchpad -var-folder /tf/caf/configuration/${ENVIRONMENT}/level0/launchpad -parallelism 30 -level level0 -env ${ENVIRONMENT} -a apply
+rover -lz ./public/landingzones/caf_launchpad -launchpad -var-folder ./public/caf_launchpad/scenario/100 -parallelism 30 -level level0 -env ${ENVIRONMENT} -a apply
 ```
 
 - Add Azure DevOps project into Level 1 (_Foundation Level_)
 
 ```bash
-rover -lz /tf/modules/examples/ -var-folder /tf/modules/examples/devops/providers/azure-devops/new_project/  -level level1 -env ${ENVIRONMENT} -a apply
+rover -lz ./examples/ -var-folder ./examples/azure-devops/new_project -level level1 -env ${ENVIRONMENT} -a apply
 ```
 
 If you want to change the Azure DevOps project configuration, see the example configuration in [examples/azure-devops/new_project/ado_project.tfvars](./examples/azure-devops/new_project/ado_project.tfvars) file;
