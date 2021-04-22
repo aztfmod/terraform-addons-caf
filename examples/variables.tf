@@ -103,3 +103,7 @@ variable "gitlab_projects" {
 variable "azure_devops_projects" {
   default = {}
 }
+
+variable "github_projects" {
+  default = {}
+}
