@@ -8,6 +8,6 @@ resource "github_repository" "repository" {
 
 resource "github_repository_project" "project" {
   name       = lookup(var.project, "name", "")
-  repository = "${github_repository.repository.name}"
+  repository = github_repository.repository.name
   body       = lookup(var.project, "description", "")
 }
