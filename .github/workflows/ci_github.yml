@@ -72,9 +72,9 @@ jobs:
         env:
           AZDO_PERSONAL_ACCESS_TOKEN: ${{ secrets.AZDO_PERSONAL_ACCESS_TOKEN }}
           AZDO_ORG_SERVICE_URL: ${{ secrets.AZDO_ORG_SERVICE_URL }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_BASE_URL: ${{ secrets.GITHUB_BASE_URL }}
-          GITHUB_OWNER: ${{ secrets.GITHUB_OWNER }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_BASE_URL: ${{ secrets.GH_BASE_URL }}
+          GITHUB_OWNER: ${{ secrets.GH_OWNER }}
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
         run: |
           export ARM_CLIENT_SECRET=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientSecret")
@@ -95,9 +95,9 @@ jobs:
         env:
           AZDO_PERSONAL_ACCESS_TOKEN: ${{ secrets.AZDO_PERSONAL_ACCESS_TOKEN }}
           AZDO_ORG_SERVICE_URL: ${{ secrets.AZDO_ORG_SERVICE_URL }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_BASE_URL: ${{ secrets.GITHUB_BASE_URL }}
-          GITHUB_OWNER: ${{ secrets.GITHUB_OWNER }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_BASE_URL: ${{ secrets.GH_BASE_URL }}
+          GITHUB_OWNER: ${{ secrets.GH_OWNER }}
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
         run: |
           export ARM_CLIENT_SECRET=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientSecret")
@@ -116,9 +116,9 @@ jobs:
 
       - name: run the pipeline for destroying launchpad
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_BASE_URL: ${{ secrets.GITHUB_BASE_URL }}
-          GITHUB_OWNER: ${{ secrets.GITHUB_OWNER }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_BASE_URL: ${{ secrets.GH_BASE_URL }}
+          GITHUB_OWNER: ${{ secrets.GH_OWNER }}
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
         run: |
           export ARM_CLIENT_SECRET=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientSecret")
