@@ -6,7 +6,3 @@ terraform {
     }
   }
 }
-
-provider "github" {
-  # Configuration options
-}

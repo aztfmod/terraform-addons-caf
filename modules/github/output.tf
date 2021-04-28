@@ -1,7 +1,3 @@
-output "project_id" {
-  value = github_project.project.id
-}
-
 output "project_name" {
-  value = github_project.project.name
+  value = github_repository_project.project.name
 }
