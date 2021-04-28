@@ -1,5 +1,5 @@
 resource "github_repository" "repository" {
-  name         = var.project.name
+  name         = lookup(var.project, "name", "")
   description  = lookup(var.project, "description", "")
   visibility   = lookup(var.project, "visibility", "private")
   has_issues   = true
