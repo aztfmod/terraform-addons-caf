@@ -3,6 +3,7 @@ module "caf" {
 
   global_settings                = var.global_settings
   gitlab_projects                = var.gitlab_projects
+  github_projects                = var.github_projects
   azure_devops_projects          = var.azure_devops_projects
   current_landingzone_key        = var.landingzone.key
   tenant_id                      = var.tenant_id
