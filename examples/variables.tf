@@ -107,3 +107,7 @@ variable "azure_devops_projects" {
 variable "github_projects" {
   default = {}
 }
+
+variable "jenkins_projects" {
+  default = {}
+}

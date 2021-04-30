@@ -1,0 +1,12 @@
+<flow-definition plugin="workflow-job@2.25">
+<actions/>
+<description>
+{{ .Parameters.description }}
+</description>
+<keepDependencies>false</keepDependencies>
+<properties/>
+<triggers/>
+<disabled>
+false
+</disabled>
+</flow-definition>

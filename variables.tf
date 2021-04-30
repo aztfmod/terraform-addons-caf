@@ -90,3 +90,6 @@ variable "github_projects" {
   default = {}
 }
 
+variable "jenkins_projects" {
+  default = {}
+}

@@ -1,3 +1,3 @@
 variable project {
-  description = "The object representative of the gitlab project entity to update"
+  description = "The object representative of the Jenkins project entity to update"
 }
