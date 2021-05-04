@@ -1,0 +1,145 @@
+name: ci_jenkins
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/ci_jenkins.yml
+      - 'modules/jenkins/**'
+      - 'examples/jenkins/**'
+  push:
+    branches: main
+    paths:
+    - "examples/jenkins/**"
+    - "modules/jenkins/**"
+  workflow_dispatch:
+
+env:
+  TF_CLI_ARGS: '-no-color'
+  TF_CLI_ARGS_destroy: '-auto-approve -refresh=false'
+  ROVER_RUNNER: true
+
+jobs:
+  ci:
+    runs-on: [ubuntu-latest]
+
+    container:
+      image: aztfmod/rover:0.13.6-2104.0803
+      options: --user 0
+
+    steps:
+      - name: checkout to repo
+        uses: actions/checkout@v2
+
+      - uses: actions/checkout@v2
+        with:
+          repository: azure/caf-terraform-landingzones
+          path: public
+
+      - name: Login azure
+        env:
+          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+        run: |
+          CLIENT_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientId")
+          CLIENT_SECRET=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientSecret")
+          SUBSCRIPTION_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".subscriptionId")
+          TENANT_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".tenantId")
+
+          az login --service-principal -u "${CLIENT_ID}" -p "${CLIENT_SECRET}" --tenant "${TENANT_ID}"
+
+          az account set -s "${SUBSCRIPTION_ID}"
+
+          echo "local user: $(whoami)"
+
+      - name: run the pipeline for provisioning launchpad
+        env:
+          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+        run: |
+          export ARM_CLIENT_SECRET=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientSecret")
+          export ARM_CLIENT_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientId")
+          export ARM_SUBSCRIPTION_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".subscriptionId")
+          export ARM_TENANT_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".tenantId")
+
+          ENVIRONMENT_SUFFIX=${{ github.run_id }}
+
+          export environment="ci_${ENVIRONMENT_SUFFIX}"
+
+          echo "Environment name is 'ci_${ENVIRONMENT_SUFFIX}'"
+
+          # deploy launchpad
+          /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/public/caf_launchpad -launchpad -var-folder ${GITHUB_WORKSPACE}/public/caf_launchpad/scenario/100 -parallelism 30 -level level0 -env ${environment} -a apply
+
+      - name: run the pipeline for deploying jenkins module
+        env:
+          AZDO_PERSONAL_ACCESS_TOKEN: ${{ secrets.AZDO_PERSONAL_ACCESS_TOKEN }}
+          AZDO_ORG_SERVICE_URL: ${{ secrets.AZDO_ORG_SERVICE_URL }}
+          JENKINS_URL: ${{ secrets.JENKINS_URL }}
+          JENKINS_USERNAME:  ${{ secrets.JENKINS_USERNAME }}
+          JENKINS_PASSWORD:  ${{ secrets.JENKINS_PASSWORD }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_BASE_URL: ${{ secrets.GH_BASE_URL }}
+          GITHUB_OWNER: ${{ secrets.GH_OWNER }}
+          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+        run: |
+          export ARM_CLIENT_SECRET=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientSecret")
+          export ARM_CLIENT_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientId")
+          export ARM_SUBSCRIPTION_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".subscriptionId")
+          export ARM_TENANT_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".tenantId")
+
+          ENVIRONMENT_SUFFIX=${{ github.run_id }}
+
+          export environment="ci_${ENVIRONMENT_SUFFIX}"
+
+          echo "Environment name is 'ci_${ENVIRONMENT_SUFFIX}'"
+
+          # deploy jenkins
+          /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/examples/ -var-folder ${GITHUB_WORKSPACE}/examples/jenkins/new_project -level level1 -env ${environment} -a apply
+
+      - name: run the pipeline for destroying the jenkins module
+        env:
+          AZDO_PERSONAL_ACCESS_TOKEN: ${{ secrets.AZDO_PERSONAL_ACCESS_TOKEN }}
+          AZDO_ORG_SERVICE_URL: ${{ secrets.AZDO_ORG_SERVICE_URL }}
+          JENKINS_URL: ${{ secrets.JENKINS_URL }}
+          JENKINS_USERNAME:  ${{ secrets.JENKINS_USERNAME }}
+          JENKINS_PASSWORD:  ${{ secrets.JENKINS_PASSWORD }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_BASE_URL: ${{ secrets.GH_BASE_URL }}
+          GITHUB_OWNER: ${{ secrets.GH_OWNER }}
+          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+        run: |
+          export ARM_CLIENT_SECRET=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientSecret")
+          export ARM_CLIENT_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientId")
+          export ARM_SUBSCRIPTION_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".subscriptionId")
+          export ARM_TENANT_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".tenantId")
+
+          ENVIRONMENT_SUFFIX=${{ github.run_id }}
+
+          export environment="ci_${ENVIRONMENT_SUFFIX}"
+
+          echo "Environment name is 'ci_${ENVIRONMENT_SUFFIX}'"
+
+          # destroy jenkins
+          /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/examples/ -var-folder ${GITHUB_WORKSPACE}/examples/jenkins/new_project -level level1 -env ${environment} -a destroy -auto-approve
+
+      - name: run the pipeline for destroying launchpad
+        env:
+          JENKINS_URL: ${{ secrets.JENKINS_URL }}
+          JENKINS_USERNAME:  ${{ secrets.JENKINS_USERNAME }}
+          JENKINS_PASSWORD:  ${{ secrets.JENKINS_PASSWORD }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_BASE_URL: ${{ secrets.GH_BASE_URL }}
+          GITHUB_OWNER: ${{ secrets.GH_OWNER }}
+          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+        run: |
+          export ARM_CLIENT_SECRET=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientSecret")
+          export ARM_CLIENT_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientId")
+          export ARM_SUBSCRIPTION_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".subscriptionId")
+          export ARM_TENANT_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".tenantId")
+
+          ENVIRONMENT_SUFFIX=${{ github.run_id }}
+
+          export environment="ci_${ENVIRONMENT_SUFFIX}"
+
+          echo "Environment name is 'ci_${ENVIRONMENT_SUFFIX}'"
+
+          # destroy launchpad
+          /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/public/caf_launchpad -launchpad -var-folder ${GITHUB_WORKSPACE}/public/caf_launchpad/scenario/100 -parallelism 30 -level level0 -env ${environment} -a destroy -auto-approve
