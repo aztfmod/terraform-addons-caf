@@ -72,32 +72,21 @@ If you want to change the Jenkins project configuration or project variables, se
 
 ```terraform
 jenkins_projects = {
-  test_project  = {
-    name        = "test_job"
-    description = "test job description"
-    visibility  = "private"
 
-    variables = {
-      var1 = {
-        value = "testvalue1"
-        protected = true
-        masked = false
-      }
-      var2 = {
-        value = "testvalue2"
-        protected = false
-        masked = true
-      }
-      var3 = {
-        value = "testvalue3"
-        protected = true
-      }
-      var4 = {
-        value = "testvalue4"
-        masked = true
-      }
-    }
+  test_job  = {
+    folderName  = "test_folder_1"
+    jobName        = "test_job_1"
+    description = "This is a test!"
   }
+
+  demo_job  = {
+    folderName  = ""
+    jobName     = "demo_job_1"
+    description = "This is a demo!"
+    visibility  = "private"
+  }
+
+}
 }
 ```
 
