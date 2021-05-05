@@ -28,7 +28,7 @@ module "jenkins_projects" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| project | The project configuration map | `map` | n/a | yes |
+| job | The project configuration map | `map` | n/a | yes |
 
 ## Outputs
 
@@ -70,23 +70,26 @@ rover -lz /tf/caf/examples/ -var-folder /tf/caf/examples/jenkins/new_project/ -l
 
 If you want to change the Jenkins project configuration or project variables, see the example configuration in [examples/jenkins/new_project/jenkins_project.tfvars](./examples/jenkins/new_project/jenkins_project.tfvars) file;
 
+note: If you are using folders, the Jenkins installation that uses this resource is expected to have the Cloudbees Folders Plugin installed in their system.
+For more details on the parameters, please refer to: https://registry.terraform.io/providers/taiidani/jenkins/latest/docs/resources/job
+
 ```terraform
 jenkins_projects = {
 
   test_job  = {
-    folderName  = "test_folder_1"
-    jobName        = "test_job_1"
-    description = "This is a test!"
+    folderName        = "test_folder_1"
+    folderDescription = "Test folder1"
+    createFolder      = "true"
+    jobName           = "test_job_1"
+    jobDescription       = "This is a test job!"
   }
 
   demo_job  = {
-    folderName  = ""
-    jobName     = "demo_job_1"
-    description = "This is a demo!"
-    visibility  = "private"
+    folderName    = "test_folder_1"
+    createFolder  = "FALSE"
+    jobName       = "demo_job_1"
+    jobDescription   = "This is a demo!"
   }
-
-}
 }
 ```
 

@@ -1,15 +1,16 @@
-# Create a Jenkins Folder
+# Create a Jenkins Folder if foldername!="" and createFolder="true"
 resource "jenkins_folder" "job" {
   name               = lookup(var.job, "folderName", "")
-  count              = var.job.folderName=="" ? "0":"1"
+  description        = lookup(var.job, "folderDescription", "")
+  count              = (var.job.folderName!="" && var.job.createFolder=="true")? "1":"0"
 }
 
 # Create a Jenkins job
 resource "jenkins_job" "job" {
-  name     = lookup(var.job, "jobName", "")
-  folder   =  var.job.folderName=="" ? null:jenkins_folder.job[0].id
-  template = file("${path.module}/job.xml")
-  parameters = {
-    description = lookup(var.job, "description", "")
+  name        = lookup(var.job, "jobName", "")
+  folder      = var.job.folderName!=""?var.job.folderName:null
+  template    = file("${path.module}/job.xml")
+  parameters  = {
+    description = lookup(var.job, "jobDescription", "")
   }
 }
