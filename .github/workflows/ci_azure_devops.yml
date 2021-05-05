@@ -78,6 +78,9 @@ jobs:
           GITHUB_BASE_URL: ${{ secrets.GH_BASE_URL }}
           GITHUB_OWNER: ${{ secrets.GH_OWNER }}
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+          JENKINS_URL: ${{ secrets.JENKINS_URL }}
+          JENKINS_USERNAME:  ${{ secrets.JENKINS_USERNAME }}
+          JENKINS_PASSWORD:  ${{ secrets.JENKINS_PASSWORD }}
         run: |
           export ARM_CLIENT_SECRET=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientSecret")
           export ARM_CLIENT_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientId")
@@ -107,6 +110,9 @@ jobs:
           GITHUB_BASE_URL: ${{ secrets.GH_BASE_URL }}
           GITHUB_OWNER: ${{ secrets.GH_OWNER }}
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+          JENKINS_URL: ${{ secrets.JENKINS_URL }}
+          JENKINS_USERNAME:  ${{ secrets.JENKINS_USERNAME }}
+          JENKINS_PASSWORD:  ${{ secrets.JENKINS_PASSWORD }}
         run: |
           export ARM_CLIENT_SECRET=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientSecret")
           export ARM_CLIENT_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientId")

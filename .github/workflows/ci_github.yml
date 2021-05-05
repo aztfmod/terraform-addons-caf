@@ -78,6 +78,9 @@ jobs:
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
           GITLAB_BASE_URL: ${{ secrets.GITLAB_BASE_URL }}          
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+          JENKINS_URL: ${{ secrets.JENKINS_URL }}
+          JENKINS_USERNAME:  ${{ secrets.JENKINS_USERNAME }}
+          JENKINS_PASSWORD:  ${{ secrets.JENKINS_PASSWORD }}
         run: |
           export ARM_CLIENT_SECRET=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientSecret")
           export ARM_CLIENT_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientId")
@@ -103,6 +106,9 @@ jobs:
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
           GITLAB_BASE_URL: ${{ secrets.GITLAB_BASE_URL }}          
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+          JENKINS_URL: ${{ secrets.JENKINS_URL }}
+          JENKINS_USERNAME:  ${{ secrets.JENKINS_USERNAME }}
+          JENKINS_PASSWORD:  ${{ secrets.JENKINS_PASSWORD }}
         run: |
           export ARM_CLIENT_SECRET=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientSecret")
           export ARM_CLIENT_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientId")

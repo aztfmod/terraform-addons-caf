@@ -1,6 +1,6 @@
-# GitLab CAF Module
+# Jenkins CAF Module
 
-This submodule is part of [Cloud Adoption Framework](https://github.com/aztfmod/terraform-azurerm-caf) landing zones for [GitLab on Terraform](https://github.com/taiidani/terraform-provider-jenkins).
+This submodule is part of [Cloud Adoption Framework](https://github.com/aztfmod/terraform-azurerm-caf) landing zones for [Jenkins on Terraform](https://github.com/taiidani/terraform-provider-jenkins).
 
 You can instantiate this submodule directly using the following parameters:
 
