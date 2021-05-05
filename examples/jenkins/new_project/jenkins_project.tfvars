@@ -9,7 +9,7 @@ jenkins_projects = {
   }
 
   demo_job  = {
-    folderName        = "test_folder_1"
+    folderName        = "test_folder1"
     createFolder      = "FALSE"
     jobName           = "demo_job1"
     jobDescription    = "This is a demo!"
