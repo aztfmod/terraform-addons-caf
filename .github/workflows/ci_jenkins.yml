@@ -21,7 +21,6 @@ env:
 jobs:
   ci:
     runs-on: [ubuntu-latest]
-
     container:
       image: aztfmod/rover:0.13.6-2104.0803
       options: --user 0
@@ -68,7 +67,8 @@ jobs:
           # deploy launchpad
           /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/public/caf_launchpad -launchpad -var-folder ${GITHUB_WORKSPACE}/public/caf_launchpad/scenario/100 -parallelism 30 -level level0 -env ${environment} -a apply
 
-      - name: run the pipeline for deploying jenkins module
+      - name: run the pipeline for deploying jenkins module to create jobs and folders(optional)
+        continue-on-error: true
         env:
           AZDO_PERSONAL_ACCESS_TOKEN: ${{ secrets.AZDO_PERSONAL_ACCESS_TOKEN }}
           AZDO_ORG_SERVICE_URL: ${{ secrets.AZDO_ORG_SERVICE_URL }}

@@ -1,3 +1,3 @@
 variable job {
-  description = "The object representative of the gitlab project entity to update"
+  description = "The object representative of the jenkins project entity to update"
 }

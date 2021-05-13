@@ -12,5 +12,8 @@ resource "jenkins_job" "job" {
   template    = file("${path.module}/job.xml")
   parameters  = {
     description = lookup(var.job, "jobDescription", "")
+    repoUrl     = lookup(var.job, "repoUrl", "")
+    branchname  = lookup(var.job, "branchname", "")
+    jenkinsCredentialsId  = lookup(var.job, "jenkinsCredentialsId", "")
   }
 }

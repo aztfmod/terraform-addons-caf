@@ -1,4 +1,9 @@
-# Jenkins CAF Module
+# Jenkins CAF Module - For creating jenkins folders and jobs
+# Assumptions: 
+# 1. The Jenkins server is installed in Azure and there's a public url and CA cert available
+# 2. The Jenkins installation that uses this resource is expected to have the Cloudbees Folders Plugin installed in their system.
+# 3. Jenkins pipeline plugin installed - https://plugins.jenkins.io/workflow-cps/
+
 
 This submodule is part of [Cloud Adoption Framework](https://github.com/aztfmod/terraform-azurerm-caf) landing zones for [Jenkins on Terraform](https://github.com/taiidani/terraform-provider-jenkins).
 
