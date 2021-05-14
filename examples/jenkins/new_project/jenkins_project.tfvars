@@ -1,10 +1,10 @@
 jenkins_projects = {
 
   test_job  = {
-    folderName          = "test_folder6"
-    folderDescription   = "Test folder6"
-    createFolder        = "true"
-    jobName             = "test_job6"
+    folderName          = "test_folder7"
+    folderDescription   = "Test folder7"
+    createFolder        = "false"
+    jobName             = "test_job"
     jobDescription      = "This is a test job!"
     repoUrl             = "https://github.com/taiidani/terraform-provider-jenkins.git"
     branchname          = "master"
@@ -12,9 +12,9 @@ jenkins_projects = {
   }
 
   demo_job  = {
-    folderName          = "test_folder6"
+    folderName          = "test_folder7"
     createFolder        = "false"
-    jobName             = "demo_job6"
+    jobName             = "demo_job"
     jobDescription      = "This is a demo!"
     repoUrl             = "https://github.com/taiidani/terraform-provider-jenkins.git"
     branchname          = "master"
