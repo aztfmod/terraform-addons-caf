@@ -6,7 +6,7 @@ locals {
   _defaultUserInfo = {
     userid = "adminuser"
     publicKey = "~/.ssh/id_rsa.pub"
-    privateKey = "~/.ssh/id_rsa.pem"
+    privateKey = "~/.ssh/id_rsa"
   }
   _defaultSKU = "Standard_F2"
 }

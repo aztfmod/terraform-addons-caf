@@ -23,7 +23,7 @@ jenkinsServers = {
 
     # non-defaulted Admin user information
     adminUser = "adifferentadminuser"
-    adminUserSSHPrivateKeyFile = "~/.ssh/id_rsa.pem"
+    adminUserSSHPrivateKeyFile = "~/.ssh/id_rsa"
     adminUserSSHPublicKeyFile =  "~/.ssh/id_rsa.pub"
 
     # non-defaulted VM SKU to use
