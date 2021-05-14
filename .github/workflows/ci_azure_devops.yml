@@ -101,6 +101,7 @@ jobs:
             -a apply
 
       - name: run the pipeline for destroying azure devops module
+        if: ${{ always() }}
         env:
           AZDO_PERSONAL_ACCESS_TOKEN: ${{ secrets.AZDO_PERSONAL_ACCESS_TOKEN }}
           AZDO_ORG_SERVICE_URL: ${{ secrets.AZDO_ORG_SERVICE_URL }}
