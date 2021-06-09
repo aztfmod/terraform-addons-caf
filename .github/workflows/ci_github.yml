@@ -87,7 +87,7 @@ jobs:
           echo "Environment name is 'ci_${ENVIRONMENT_SUFFIX}'"
 
           # deploy github
-          /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}modules/github/example/ -var-folder ${GITHUB_WORKSPACE}modules/github/example/configuration/new_project -level level1 -env ${environment} -a apply
+          /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/modules/github/example/ -var-folder ${GITHUB_WORKSPACE}/modules/github/example/configuration/new_project -level level1 -env ${environment} -a apply
 
       - name: run the pipeline for destroying the github module
         env:
@@ -108,7 +108,7 @@ jobs:
           echo "Environment name is 'ci_${ENVIRONMENT_SUFFIX}'"
 
           # destroy github
-          /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}modules/github/example/ -var-folder ${GITHUB_WORKSPACE}modules/github/example/configuration/new_project -level level1 -env ${environment} -a destroy -auto-approve
+          /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/modules/github/example/ -var-folder ${GITHUB_WORKSPACE}/modules/github/example/configuration/new_project -level level1 -env ${environment} -a destroy -auto-approve
 
       - name: run the pipeline for destroying launchpad
         env:
