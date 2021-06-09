@@ -3,14 +3,14 @@ name: ci_azure_devops
 on:
   pull_request:
     paths:
-      - .github/workflows/ci_azure_devops.yml
-      - 'modules/azure-devops/**'
-      - 'examples/azure-devops/**'
+      - .github/workflows/ci_azuredevops.yml
+      - 'modules/azuredevops/module/**'
+      - 'modules/azuredevops/example/**'
   push:
     branches: main
     paths:
-    - "examples/azure-devops/**"
-    - "modules/azure-devops/**"
+    - 'modules/azuredevops/module/**'
+    - 'modules/azuredevops/example/**'
   workflow_dispatch:
 
 env:
@@ -72,11 +72,6 @@ jobs:
         env:
           AZDO_PERSONAL_ACCESS_TOKEN: ${{ secrets.AZDO_PERSONAL_ACCESS_TOKEN }}
           AZDO_ORG_SERVICE_URL: ${{ secrets.AZDO_ORG_SERVICE_URL }}
-          GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
-          GITLAB_BASE_URL: ${{ secrets.GITLAB_BASE_URL }}
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          GITHUB_BASE_URL: ${{ secrets.GH_BASE_URL }}
-          GITHUB_OWNER: ${{ secrets.GH_OWNER }}
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
         run: |
           export ARM_CLIENT_SECRET=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientSecret")
@@ -101,11 +96,6 @@ jobs:
         env:
           AZDO_PERSONAL_ACCESS_TOKEN: ${{ secrets.AZDO_PERSONAL_ACCESS_TOKEN }}
           AZDO_ORG_SERVICE_URL: ${{ secrets.AZDO_ORG_SERVICE_URL }}
-          GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
-          GITLAB_BASE_URL: ${{ secrets.GITLAB_BASE_URL }}
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          GITHUB_BASE_URL: ${{ secrets.GH_BASE_URL }}
-          GITHUB_OWNER: ${{ secrets.GH_OWNER }}
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
         run: |
           export ARM_CLIENT_SECRET=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientSecret")
