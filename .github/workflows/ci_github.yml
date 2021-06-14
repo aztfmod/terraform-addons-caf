@@ -53,7 +53,7 @@ jobs:
       - name: Azure Login
         uses: Azure/login@v1.1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS_SP }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Set Subscription
         env:
