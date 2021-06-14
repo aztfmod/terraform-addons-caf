@@ -1,4 +1,4 @@
-name: ci_azure_devops
+name: ci_azuredevops
 
 on:
   pull_request:
