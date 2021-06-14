@@ -1,5 +1,5 @@
 module "azuredevops_projects" {
-  source          = "../modules"
+  source          = "../module"
   for_each        = var.azuredevops_projects
   project         = each.value
   global_settings = local.global_settings
