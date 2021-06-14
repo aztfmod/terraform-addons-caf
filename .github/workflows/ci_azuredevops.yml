@@ -1,9 +1,9 @@
-name: ci_azure_devops
+name: ci_azuredevops
 
 on:
   pull_request:
     paths:
-      - .github/workflows/ci_azure_devops.yml
+      - .github/workflows/ci_azuredevops.yml
       - 'modules/azure-devops/**'
       - 'examples/azure-devops/**'
   push:
