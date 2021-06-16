@@ -23,8 +23,7 @@ jobs:
     runs-on: [ubuntu-latest]
 
     container:
-      #image: aztfmod/rover:0.13.6-2104.0803
-      image: aztfmod/rover:1.0.0-2106.0911
+      image: aztfmod/rover:0.13.6-2104.0803
       options: --user 0
 
     steps:
