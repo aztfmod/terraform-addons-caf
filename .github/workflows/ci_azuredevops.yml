@@ -27,15 +27,16 @@ jobs:
       options: --user 0
 
     steps:
-      - name: checkout to repo
+      - name: Repo Checkout - self
         uses: actions/checkout@v2
 
+      - name: Repo Checkout - caf-terraform-landingzones
       - uses: actions/checkout@v2
         with:
           repository: azure/caf-terraform-landingzones
           path: public
 
-      - name: Login azure
+      - name: Login Azure
         env:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
         run: |
@@ -50,7 +51,7 @@ jobs:
 
           echo "local user: $(whoami)"
 
-      - name: run the pipeline for provisioning launchpad
+      - name: Provision launchpad
         env:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
         run: |
@@ -68,7 +69,7 @@ jobs:
           # deploy launchpad
           /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/public/caf_launchpad -launchpad -var-folder ${GITHUB_WORKSPACE}/public/caf_launchpad/scenario/100 -parallelism 30 -level level0 -env ${environment} -a apply
 
-      - name: run the pipeline for deploying azure devops module
+      - name: Deploy Azure DevOps module
         env:
           AZDO_PERSONAL_ACCESS_TOKEN: ${{ secrets.AZDO_PERSONAL_ACCESS_TOKEN }}
           AZDO_ORG_SERVICE_URL: ${{ secrets.AZDO_ORG_SERVICE_URL }}
@@ -92,7 +93,7 @@ jobs:
             -env ${environment} \
             -a apply
 
-      - name: run the pipeline for destroying azure devops module
+      - name: Destroy Azure DevOps module
         env:
           AZDO_PERSONAL_ACCESS_TOKEN: ${{ secrets.AZDO_PERSONAL_ACCESS_TOKEN }}
           AZDO_ORG_SERVICE_URL: ${{ secrets.AZDO_ORG_SERVICE_URL }}
@@ -112,7 +113,8 @@ jobs:
           # destroy azure-devops
           /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/modules/azuredevops/example/ -var-folder ${GITHUB_WORKSPACE}/modules/azuredevops/example/configuration/new_project -level level1 -env ${environment} -a destroy -auto-approve
 
-      - name: run the pipeline for destroying launchpad
+      - name: Destroy launchpad
+        if: always()
         env:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
         run: |

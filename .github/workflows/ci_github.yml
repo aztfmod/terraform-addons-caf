@@ -27,15 +27,16 @@ jobs:
       options: --user 0
 
     steps:
-      - name: checkout to repo
+      - name: Repo Checkout - self
         uses: actions/checkout@v2
 
+      - name: Repo Checkout - caf-terraform-landingzones
       - uses: actions/checkout@v2
         with:
           repository: azure/caf-terraform-landingzones
           path: public
 
-      - name: Login azure
+      - name: Login Azure
         env:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
         run: |
@@ -63,7 +64,7 @@ jobs:
       #     az account set -s "${SUBSCRIPTION_ID}"
       #     echo "local user: $(whoami)"
 
-      - name: run the pipeline for provisioning launchpad
+      - name: Provision launchpad
         env:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
         run: |
@@ -81,7 +82,7 @@ jobs:
           # deploy launchpad
           /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/public/caf_launchpad -launchpad -var-folder ${GITHUB_WORKSPACE}/public/caf_launchpad/scenario/100 -parallelism 30 -level level0 -env ${environment} -a apply
 
-      - name: run the pipeline for deploying github module
+      - name: Deploying GitHub module
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           GITHUB_BASE_URL: ${{ secrets.GH_BASE_URL }}
@@ -102,7 +103,7 @@ jobs:
           # deploy github
           /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/modules/github/example/ -var-folder ${GITHUB_WORKSPACE}/modules/github/example/configuration/new_project -level level1 -env ${environment} -a apply
 
-      - name: run the pipeline for destroying the github module
+      - name: Destroy GitHub module
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           GITHUB_BASE_URL: ${{ secrets.GH_BASE_URL }}
@@ -123,7 +124,8 @@ jobs:
           # destroy github
           /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/modules/github/example/ -var-folder ${GITHUB_WORKSPACE}/modules/github/example/configuration/new_project -level level1 -env ${environment} -a destroy -auto-approve
 
-      - name: run the pipeline for destroying launchpad
+      - name: Destroy launchpad
+        if: always()
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           GITHUB_BASE_URL: ${{ secrets.GH_BASE_URL }}
