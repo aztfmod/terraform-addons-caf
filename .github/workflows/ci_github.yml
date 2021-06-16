@@ -35,34 +35,33 @@ jobs:
           repository: azure/caf-terraform-landingzones
           path: public
 
-      # - name: Login azure
-      #   env:
-      #     AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
-      #   run: |
-      #     CLIENT_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientId")
-      #     CLIENT_SECRET=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientSecret")
-      #     SUBSCRIPTION_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".subscriptionId")
-      #     TENANT_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".tenantId")
-
-      #     az login --service-principal -u "${CLIENT_ID}" -p "${CLIENT_SECRET}" --tenant "${TENANT_ID}"
-
-      #     az account set -s "${SUBSCRIPTION_ID}"
-
-      #     echo "local user: $(whoami)"
-
-      - name: Azure Login
-        uses: Azure/login@v1.1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Set Azure Subscription
+      - name: Login azure
         env:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
         run: |
+          CLIENT_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientId")
+          CLIENT_SECRET=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientSecret")
           SUBSCRIPTION_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".subscriptionId")
+          TENANT_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".tenantId")
+
+          az login --service-principal -u "${CLIENT_ID}" -p "${CLIENT_SECRET}" --tenant "${TENANT_ID}"
+
           az account set -s "${SUBSCRIPTION_ID}"
 
           echo "local user: $(whoami)"
+
+      # - name: Azure Login
+      #   uses: Azure/login@v1.1
+      #   with:
+      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # - name: Set Azure Subscription
+      #   env:
+      #     AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+      #   run: |
+      #     SUBSCRIPTION_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".subscriptionId")
+      #     az account set -s "${SUBSCRIPTION_ID}"
+      #     echo "local user: $(whoami)"
 
       - name: run the pipeline for provisioning launchpad
         env:

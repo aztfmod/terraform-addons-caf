@@ -89,6 +89,7 @@ jobs:
           /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/modules/gitlab/example/ -var-folder ${GITHUB_WORKSPACE}/modules/gitlab/example/configuration/new_project -level level1 -env ${environment} -a apply
 
       - name: run the pipeline for destroying the gitlab module
+        if: always()
         env:
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
           GITLAB_BASE_URL: ${{ secrets.GITLAB_BASE_URL }}
@@ -109,6 +110,7 @@ jobs:
           /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/modules/gitlab/example/ -var-folder ${GITHUB_WORKSPACE}/modules/gitlab/example/configuration/new_project -level level1 -env ${environment} -a destroy -auto-approve
 
       - name: run the pipeline for destroying launchpad
+        if: always()
         env:
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
           GITLAB_BASE_URL: ${{ secrets.GITLAB_BASE_URL }}
