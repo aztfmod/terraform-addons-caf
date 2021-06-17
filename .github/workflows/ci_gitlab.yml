@@ -4,13 +4,13 @@ on:
   pull_request:
     paths:
       - .github/workflows/ci_gitlab.yml
-      - 'modules/gitlab/**'
-      - 'examples/gitlab/**'
+      - 'modules/gitlab/module/**'
+      - 'modules/gitlab/example/**'
   push:
     branches: main
     paths:
-    - "examples/gitlab/**"
-    - "modules/gitlab/**"
+    - 'modules/gitlab/module/**'
+    - 'modules/gitlab/example/**'
   workflow_dispatch:
 
 env:
@@ -27,15 +27,16 @@ jobs:
       options: --user 0
 
     steps:
-      - name: checkout to repo
+      - name: Repo Checkout - self
         uses: actions/checkout@v2
 
-      - uses: actions/checkout@v2
+      - name: Repo Checkout - caf-terraform-landingzones
+        uses: actions/checkout@v2
         with:
           repository: azure/caf-terraform-landingzones
           path: public
 
-      - name: Login azure
+      - name: Login Azure
         env:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
         run: |
@@ -50,7 +51,7 @@ jobs:
 
           echo "local user: $(whoami)"
 
-      - name: run the pipeline for provisioning launchpad
+      - name: Provision launchpad
         env:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
         run: |
@@ -68,15 +69,10 @@ jobs:
           # deploy launchpad
           /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/public/caf_launchpad -launchpad -var-folder ${GITHUB_WORKSPACE}/public/caf_launchpad/scenario/100 -parallelism 30 -level level0 -env ${environment} -a apply
 
-      - name: run the pipeline for deploying gitlab module
+      - name: Deploying GitLab module
         env:
-          AZDO_PERSONAL_ACCESS_TOKEN: ${{ secrets.AZDO_PERSONAL_ACCESS_TOKEN }}
-          AZDO_ORG_SERVICE_URL: ${{ secrets.AZDO_ORG_SERVICE_URL }}
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
           GITLAB_BASE_URL: ${{ secrets.GITLAB_BASE_URL }}
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          GITHUB_BASE_URL: ${{ secrets.GH_BASE_URL }}
-          GITHUB_OWNER: ${{ secrets.GH_OWNER }}
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
           JENKINS_URL: ${{ secrets.JENKINS_URL }}
           JENKINS_USERNAME:  ${{ secrets.JENKINS_USERNAME }}
@@ -94,17 +90,12 @@ jobs:
           echo "Environment name is 'ci_${ENVIRONMENT_SUFFIX}'"
 
           # deploy gitlab
-          /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/examples/ -var-folder ${GITHUB_WORKSPACE}/examples/gitlab/new_project -level level1 -env ${environment} -a apply
+          /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/modules/gitlab/example/ -var-folder ${GITHUB_WORKSPACE}/modules/gitlab/example/configuration/new_project -level level1 -env ${environment} -a apply
 
-      - name: run the pipeline for destroying the gitlab module
+      - name: Destroy GitLab module
         env:
-          AZDO_PERSONAL_ACCESS_TOKEN: ${{ secrets.AZDO_PERSONAL_ACCESS_TOKEN }}
-          AZDO_ORG_SERVICE_URL: ${{ secrets.AZDO_ORG_SERVICE_URL }}
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
           GITLAB_BASE_URL: ${{ secrets.GITLAB_BASE_URL }}
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          GITHUB_BASE_URL: ${{ secrets.GH_BASE_URL }}
-          GITHUB_OWNER: ${{ secrets.GH_OWNER }}
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
           JENKINS_URL: ${{ secrets.JENKINS_URL }}
           JENKINS_USERNAME:  ${{ secrets.JENKINS_USERNAME }}
@@ -122,15 +113,13 @@ jobs:
           echo "Environment name is 'ci_${ENVIRONMENT_SUFFIX}'"
 
           # destroy gitlab
-          /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/examples/ -var-folder ${GITHUB_WORKSPACE}/examples/gitlab/new_project -level level1 -env ${environment} -a destroy -auto-approve
+          /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/modules/gitlab/example/ -var-folder ${GITHUB_WORKSPACE}/modules/gitlab/example/configuration/new_project -level level1 -env ${environment} -a destroy -auto-approve
 
-      - name: run the pipeline for destroying launchpad
+      - name: Destroy launchpad
+        if: always()
         env:
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
           GITLAB_BASE_URL: ${{ secrets.GITLAB_BASE_URL }}
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          GITHUB_BASE_URL: ${{ secrets.GH_BASE_URL }}
-          GITHUB_OWNER: ${{ secrets.GH_OWNER }}
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
         run: |
           export ARM_CLIENT_SECRET=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientSecret")
