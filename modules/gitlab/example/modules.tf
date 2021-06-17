@@ -1,5 +1,5 @@
 module "gitlab_projects" {
-  source          = "./modules/gitlab"
+  source          = "../module"
   for_each        = var.gitlab_projects
   project         = each.value
 }

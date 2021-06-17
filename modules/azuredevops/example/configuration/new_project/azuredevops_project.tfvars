@@ -1,4 +1,4 @@
-azure_devops_projects = {
+azuredevops_projects = {
   test_project = {
     name = "Test Project"
   }

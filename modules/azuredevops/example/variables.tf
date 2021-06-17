@@ -96,14 +96,6 @@ variable "keyvault_certificate_requests" {
   default = {}
 }
 
-variable "gitlab_projects" {
-  default = {}
-}
-
-variable "azure_devops_projects" {
-  default = {}
-}
-
-variable "github_projects" {
+variable "azuredevops_projects" {
   default = {}
 }

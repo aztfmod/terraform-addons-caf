@@ -60,13 +60,23 @@ export GITLAB_BASE_URL=<url_of_the_gitlab_server>
 - Provision Cloud Adoption Framework (CAF) Launchpad resources by executing the following script
 
 ```bash
-rover -lz ./public/landingzones/caf_launchpad -launchpad -var-folder ./public/caf_launchpad/scenario/100 -parallelism 30 -level level0 -env ${ENVIRONMENT} -a apply
+rover -lz $CAF_DIR/public/caf_launchpad \
+      -var-folder $CAF_DIR/public/caf_launchpad/scenario/100 \
+      -launchpad  \
+      -parallelism 30 \
+      -level level0 \
+      -env ${ENVIRONMENT} \
+      -a apply
 ```
 
 - Add GitLab project and couple of project variables into Level 1 (_Foundation Level_)
 
 ```bash
-rover -lz ./examples/ -var-folder ./examples/gitlab/new_project/ -level level1 -env ${ENVIRONMENT} -a apply
+rover -lz $CAF_DIR/modules/gitlab/example \
+      -var-folder $CAF_DIR/modules/gitlab/example/configuration/new_project \
+      -level level1 \
+      -env ${ENVIRONMENT} \
+      -a apply
 ```
 
 If you want to change the GitLab project configuration or project variables, see the example configuration in [examples/gitlab/new_project/gitlab_project.tfvars](./examples/gitlab/new_project/gitlab_project.tfvars) file;

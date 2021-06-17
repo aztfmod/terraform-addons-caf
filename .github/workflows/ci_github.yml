@@ -4,13 +4,13 @@ on:
   pull_request:
     paths:
       - .github/workflows/ci_github.yml
-      - 'modules/github/**'
-      - 'examples/github/**'
+      - 'modules/github/module/**'
+      - 'modules/github/example/**'
   push:
     branches: main
     paths:
-    - "examples/github/**"
-    - "modules/github/**"
+    - 'modules/github/module/**'
+    - 'modules/github/example/**'
   workflow_dispatch:
 
 env:
@@ -27,15 +27,16 @@ jobs:
       options: --user 0
 
     steps:
-      - name: checkout to repo
+      - name: Repo Checkout - self
         uses: actions/checkout@v2
 
-      - uses: actions/checkout@v2
+      - name: Repo Checkout - caf-terraform-landingzones
+        uses: actions/checkout@v2
         with:
           repository: azure/caf-terraform-landingzones
           path: public
 
-      - name: Login azure
+      - name: Login Azure
         env:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
         run: |
@@ -50,7 +51,20 @@ jobs:
 
           echo "local user: $(whoami)"
 
-      - name: run the pipeline for provisioning launchpad
+      # - name: Azure Login
+      #   uses: Azure/login@v1.1
+      #   with:
+      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # - name: Set Azure Subscription
+      #   env:
+      #     AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+      #   run: |
+      #     SUBSCRIPTION_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".subscriptionId")
+      #     az account set -s "${SUBSCRIPTION_ID}"
+      #     echo "local user: $(whoami)"
+
+      - name: Provision launchpad
         env:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
         run: |
@@ -68,15 +82,11 @@ jobs:
           # deploy launchpad
           /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/public/caf_launchpad -launchpad -var-folder ${GITHUB_WORKSPACE}/public/caf_launchpad/scenario/100 -parallelism 30 -level level0 -env ${environment} -a apply
 
-      - name: run the pipeline for deploying github module
+      - name: Deploying GitHub module
         env:
-          AZDO_PERSONAL_ACCESS_TOKEN: ${{ secrets.AZDO_PERSONAL_ACCESS_TOKEN }}
-          AZDO_ORG_SERVICE_URL: ${{ secrets.AZDO_ORG_SERVICE_URL }}
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           GITHUB_BASE_URL: ${{ secrets.GH_BASE_URL }}
-          GITHUB_OWNER: ${{ secrets.GH_OWNER }}
-          GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
-          GITLAB_BASE_URL: ${{ secrets.GITLAB_BASE_URL }}          
+          GITHUB_OWNER: ${{ secrets.GH_OWNER }}       
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
         run: |
           export ARM_CLIENT_SECRET=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientSecret")
@@ -91,17 +101,13 @@ jobs:
           echo "Environment name is 'ci_${ENVIRONMENT_SUFFIX}'"
 
           # deploy github
-          /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/examples/ -var-folder ${GITHUB_WORKSPACE}/examples/github/new_project -level level1 -env ${environment} -a apply
+          /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/modules/github/example/ -var-folder ${GITHUB_WORKSPACE}/modules/github/example/configuration/new_project -level level1 -env ${environment} -a apply
 
-      - name: run the pipeline for destroying the github module
+      - name: Destroy GitHub module
         env:
-          AZDO_PERSONAL_ACCESS_TOKEN: ${{ secrets.AZDO_PERSONAL_ACCESS_TOKEN }}
-          AZDO_ORG_SERVICE_URL: ${{ secrets.AZDO_ORG_SERVICE_URL }}
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           GITHUB_BASE_URL: ${{ secrets.GH_BASE_URL }}
-          GITHUB_OWNER: ${{ secrets.GH_OWNER }}
-          GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
-          GITLAB_BASE_URL: ${{ secrets.GITLAB_BASE_URL }}          
+          GITHUB_OWNER: ${{ secrets.GH_OWNER }}       
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
         run: |
           export ARM_CLIENT_SECRET=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientSecret")
@@ -116,9 +122,10 @@ jobs:
           echo "Environment name is 'ci_${ENVIRONMENT_SUFFIX}'"
 
           # destroy github
-          /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/examples/ -var-folder ${GITHUB_WORKSPACE}/examples/github/new_project -level level1 -env ${environment} -a destroy -auto-approve
+          /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/modules/github/example/ -var-folder ${GITHUB_WORKSPACE}/modules/github/example/configuration/new_project -level level1 -env ${environment} -a destroy -auto-approve
 
-      - name: run the pipeline for destroying launchpad
+      - name: Destroy launchpad
+        if: always()
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           GITHUB_BASE_URL: ${{ secrets.GH_BASE_URL }}
