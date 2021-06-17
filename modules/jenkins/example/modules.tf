@@ -1,7 +1,7 @@
 module "jenkins_projects" {
-  source          = "./modules/jenkins"
+  source          = "../module"
   for_each        = var.jenkins_projects
-  job             = each.value
+  project         = each.value
 }
 
 output "jenkins_projects" {
