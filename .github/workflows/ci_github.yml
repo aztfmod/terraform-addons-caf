@@ -84,13 +84,10 @@ jobs:
 
       - name: Deploying GitHub module
         env:
+          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           GITHUB_BASE_URL: ${{ secrets.GH_BASE_URL }}
-          GITHUB_OWNER: ${{ secrets.GH_OWNER }}       
-          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
-          JENKINS_URL: ${{ secrets.JENKINS_URL }}
-          JENKINS_USERNAME:  ${{ secrets.JENKINS_USERNAME }}
-          JENKINS_PASSWORD:  ${{ secrets.JENKINS_PASSWORD }}
+          GITHUB_OWNER: ${{ secrets.GH_OWNER }}
         run: |
           export ARM_CLIENT_SECRET=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientSecret")
           export ARM_CLIENT_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientId")
@@ -107,14 +104,12 @@ jobs:
           /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/modules/github/example/ -var-folder ${GITHUB_WORKSPACE}/modules/github/example/configuration/new_project -level level1 -env ${environment} -a apply
 
       - name: Destroy GitHub module
+        if: always()
         env:
+          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           GITHUB_BASE_URL: ${{ secrets.GH_BASE_URL }}
           GITHUB_OWNER: ${{ secrets.GH_OWNER }}       
-          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
-          JENKINS_URL: ${{ secrets.JENKINS_URL }}
-          JENKINS_USERNAME:  ${{ secrets.JENKINS_USERNAME }}
-          JENKINS_PASSWORD:  ${{ secrets.JENKINS_PASSWORD }}
         run: |
           export ARM_CLIENT_SECRET=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientSecret")
           export ARM_CLIENT_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientId")
@@ -133,9 +128,6 @@ jobs:
       - name: Destroy launchpad
         if: always()
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          GITHUB_BASE_URL: ${{ secrets.GH_BASE_URL }}
-          GITHUB_OWNER: ${{ secrets.GH_OWNER }}
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
         run: |
           export ARM_CLIENT_SECRET=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientSecret")
