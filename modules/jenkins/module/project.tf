@@ -1,5 +1,5 @@
 # Create a Jenkins Folder if foldername!="" and createFolder="true"
-resource "jenkins_folder" "job" {
+resource "jenkins_folder" "folder" {
   name               = lookup(var.job, "folderName", "")
   description        = lookup(var.job, "folderDescription", "")
   count              = (var.job.folderName!="" && var.job.createFolder=="true")? "1":"0"
