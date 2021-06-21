@@ -1,4 +1,4 @@
-Create a Jenkins Folder if foldername!="" and createFolder="true"
+# Create a Jenkins Folder if foldername!="" and createFolder="true"
 resource "jenkins_folder" "folder" {
   name               = lookup(var.job, "folderName", "")
   description        = lookup(var.job, "folderDescription", "")
