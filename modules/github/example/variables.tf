@@ -99,7 +99,3 @@ variable "keyvault_certificate_requests" {
 variable "github_projects" {
   default = {}
 }
-
-variable "jenkins_projects" {
-  default = {}
-}
