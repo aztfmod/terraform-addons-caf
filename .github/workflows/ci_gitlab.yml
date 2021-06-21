@@ -90,6 +90,7 @@ jobs:
           /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/modules/gitlab/example/ -var-folder ${GITHUB_WORKSPACE}/modules/gitlab/example/configuration/new_project -level level1 -env ${environment} -a apply
 
       - name: Destroy GitLab module
+        if: always()
         env:
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
           GITLAB_BASE_URL: ${{ secrets.GITLAB_BASE_URL }}
@@ -112,8 +113,6 @@ jobs:
       - name: Destroy launchpad
         if: always()
         env:
-          GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
-          GITLAB_BASE_URL: ${{ secrets.GITLAB_BASE_URL }}
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
         run: |
           export ARM_CLIENT_SECRET=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientSecret")

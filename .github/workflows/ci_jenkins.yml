@@ -1,16 +1,16 @@
-name: ci_github
+name: ci_jenkins
 
 on:
   pull_request:
     paths:
-      - .github/workflows/ci_github.yml
-      - 'modules/github/module/**'
-      - 'modules/github/example/**'
+      - .github/workflows/ci_jenkins.yml
+      - 'modules/jenkins/module/**'
+      - 'modules/jenkins/example/**'
   push:
     branches: main
     paths:
-    - 'modules/github/module/**'
-    - 'modules/github/example/**'
+    - 'modules/jenkins/module/**'
+    - 'modules/jenkins/example/**'
   workflow_dispatch:
 
 env:
@@ -51,19 +51,6 @@ jobs:
 
           echo "local user: $(whoami)"
 
-      # - name: Azure Login
-      #   uses: Azure/login@v1.1
-      #   with:
-      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      # - name: Set Azure Subscription
-      #   env:
-      #     AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
-      #   run: |
-      #     SUBSCRIPTION_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".subscriptionId")
-      #     az account set -s "${SUBSCRIPTION_ID}"
-      #     echo "local user: $(whoami)"
-
       - name: Provision launchpad
         env:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
@@ -82,12 +69,12 @@ jobs:
           # deploy launchpad
           /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/public/caf_launchpad -launchpad -var-folder ${GITHUB_WORKSPACE}/public/caf_launchpad/scenario/100 -parallelism 30 -level level0 -env ${environment} -a apply
 
-      - name: Deploying GitHub module
+      - name: Deploying Jenkins module
         env:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          GITHUB_BASE_URL: ${{ secrets.GH_BASE_URL }}
-          GITHUB_OWNER: ${{ secrets.GH_OWNER }}
+          JENKINS_URL: ${{ secrets.JENKINS_URL }}
+          JENKINS_USERNAME:  ${{ secrets.JENKINS_USERNAME }}
+          JENKINS_PASSWORD:  ${{ secrets.JENKINS_PASSWORD }}          
         run: |
           export ARM_CLIENT_SECRET=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientSecret")
           export ARM_CLIENT_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientId")
@@ -100,16 +87,16 @@ jobs:
 
           echo "Environment name is 'ci_${ENVIRONMENT_SUFFIX}'"
 
-          # deploy github
-          /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/modules/github/example/ -var-folder ${GITHUB_WORKSPACE}/modules/github/example/configuration/new_project -level level1 -env ${environment} -a apply
+          # deploy jenkins
+          /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/modules/jenkins/example/ -var-folder ${GITHUB_WORKSPACE}/modules/jenkins/example/configuration/new_project -level level1 -env ${environment} -a apply
 
-      - name: Destroy GitHub module
+      - name: Destroy Jenkins module
         if: always()
         env:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          GITHUB_BASE_URL: ${{ secrets.GH_BASE_URL }}
-          GITHUB_OWNER: ${{ secrets.GH_OWNER }}       
+          JENKINS_URL: ${{ secrets.JENKINS_URL }}
+          JENKINS_USERNAME:  ${{ secrets.JENKINS_USERNAME }}
+          JENKINS_PASSWORD:  ${{ secrets.JENKINS_PASSWORD }}
         run: |
           export ARM_CLIENT_SECRET=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientSecret")
           export ARM_CLIENT_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientId")
@@ -122,8 +109,9 @@ jobs:
 
           echo "Environment name is 'ci_${ENVIRONMENT_SUFFIX}'"
 
-          # destroy github
-          /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/modules/github/example/ -var-folder ${GITHUB_WORKSPACE}/modules/github/example/configuration/new_project -level level1 -env ${environment} -a destroy -auto-approve
+          # destroy jenkins
+          /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/modules/jenkins/example/ -var-folder ${GITHUB_WORKSPACE}/modules/jenkins/example/configuration/new_project -level level1 -env ${environment} -a destroy -auto-approve
+
 
       - name: Destroy launchpad
         if: always()
