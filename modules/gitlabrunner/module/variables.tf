@@ -1,3 +1,8 @@
+data "azurerm_user_assigned_identity" "msi" {
+  name                = "msi-gitlab"
+  resource_group_name = "rg-gitlabsrv-daporo001"
+}
+
 data "azurerm_resource_group" "resource_group" {
   name = "rg-gitlabsrv-daporo001"
 }
@@ -5,6 +10,29 @@ data "azurerm_resource_group" "resource_group" {
 data "azurerm_resources" "vnet" {
   resource_group_name = data.azurerm_resource_group.resource_group.name
   type                = "Microsoft.Network/virtualNetworks"
+}
+
+data "azurerm_resources" "msi_id" {
+  type = "Microsoft.ManagedIdentity"
+  required_tags = {
+    environment = "${var.caf_environment}"
+    level       = "1"
+  }
+}
+
+variable "caf_environment" {
+  type    = string
+  default = "test"
+}
+
+variable "gitlab_server" {
+  type = map(string)
+  default = {
+    cert_path   = "/mnt/c/dev/aztfmod/symphony/.data/ssl/server.crt"
+    internal_ip = "10.0.0.4"
+    fqdn        = "daporogl.westus2.cloudapp.azure.com"
+    token       = "dheprk2Mzv8teJHi78sQ"
+  }
 }
 
 variable "vnet_subnet" {
@@ -30,8 +58,9 @@ variable "vm_image" {
 variable "vm_admin" {
   type = map(string)
   default = {
-    username   = "gitlab"
-    public_key = "~/.ssh/id_rsa.pub"
+    username    = "gitlab"
+    public_key  = "~/.ssh/id_rsa.pub"
+    private_key = "~/.ssh/id_rsa"
   }
 }
 
@@ -47,5 +76,5 @@ variable "vm_storage" {
 
 variable "vm_count" {
   type    = number
-  default = 2
+  default = 1
 }
