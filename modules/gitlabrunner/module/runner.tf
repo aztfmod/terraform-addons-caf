@@ -59,7 +59,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
     azurerm_role_assignment.assign_msi
   ]
   count               = lookup(var.runner, "vm_count", "") #var.vm_count
-  name                = "${var.vm_prefix}-${count.index}" #"${var.vm_prefix}-${count.index}"
+  name                = "${lookup(var.runner, "vm_prefix", "")}-${count.index}" #"${var.vm_prefix}-${count.index}"
   resource_group_name = data.azurerm_resource_group.resource_group.name
   location            = data.azurerm_resource_group.resource_group.location
   size                = lookup(var.runner, "vm_size", "") #var.vm_size
