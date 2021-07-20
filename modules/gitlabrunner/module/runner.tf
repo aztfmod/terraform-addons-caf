@@ -91,7 +91,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
     identity_ids = [data.azurerm_user_assigned_identity.msi.id]
   }
 
-  custom_data = filebase64("./runner/cloud-config.yml")
+  custom_data = filebase64("${path.module}/runner/cloud-config.yml")
 
   provisioner "file" {
     source      = "./runner/custom-agent"
