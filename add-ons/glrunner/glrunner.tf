@@ -2,8 +2,7 @@ module "glrunner" {
   for_each = try(var.jenkinsServers, {})
   source   = "./module"
 
-  vmName            = replace(each.key, "_", "-")
-  resourceGroupName = each.value.resource_group_name
+  resource_group_name = each.value.resource_group_name
   tags              = local.tags_computed
   full_mode         = each.value.full_mode
 
