@@ -1,5 +1,4 @@
 glrunner = {
-
   glrunner1 = {
     resource_group_name = "rg-gitlabsrv-daporo001"
     glserver_token = "6aByVYccdavafXZsez4Z"

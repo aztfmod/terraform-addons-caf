@@ -1,6 +1,6 @@
 data "azurerm_user_assigned_identity" "msi" {
-  name                = lookup(var.runner, "msi_name", "") #"msi-gitlab"
-  resource_group_name = lookup(var.runner, "msi_resource_group_name", "")
+  name                = "msi-gitlab"
+  resource_group_name = "rg-gitlabsrv-daporo001"
 }
 
 variable "resource_group_name" {

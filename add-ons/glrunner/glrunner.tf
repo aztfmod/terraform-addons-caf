@@ -1,5 +1,5 @@
 module "glrunner" {
-  for_each = try(var.jenkinsServers, {})
+  for_each = try(var.glrunner, {})
   source   = "./module"
 
   resource_group_name = each.value.resource_group_name
