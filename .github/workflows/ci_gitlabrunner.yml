@@ -4,13 +4,11 @@ on:
   pull_request:
     paths:
       - .github/workflows/ci_gitlabrunner.yml
-      - 'modules/gitlabrunner/module/**'
-      - 'modules/gitlabrunner/example/**'
+      - 'add-ons/glrunner/**'
   push:
     branches: main
     paths:
-    - 'modules/gitlabrunner/module/**'
-    - 'modules/gitlabrunner/example/**'
+      - 'add-ons/glrunner/**'
   workflow_dispatch:
 
 env:
@@ -69,7 +67,7 @@ jobs:
           # deploy launchpad
           /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/public/caf_launchpad -launchpad -var-folder ${GITHUB_WORKSPACE}/public/caf_launchpad/scenario/100 -parallelism 30 -level level0 -env ${environment} -a apply
 
-      - name: Deploying gitlabrunner module
+      - name: Deploying glrunner add-on
         env:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
         run: |
@@ -84,10 +82,15 @@ jobs:
 
           echo "Environment name is 'ci_${ENVIRONMENT_SUFFIX}'"
 
-          # deploy gitlabrunner
-          /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/modules/gitlabrunner/example/ -var-folder ${GITHUB_WORKSPACE}/modules/gitlabrunner/example/configuration/runner -level level1 -env ${environment} -a apply
+          # deploy glrunner
+          /tf/rover/rover.sh \
+            -lz ${GITHUB_WORKSPACE}/add-ons/glrunner/ \
+            -var-folder ${GITHUB_WORKSPACE}/add-ons/glrunner/example \
+            -level level1 \
+            -env "${environment}" \
+            -a apply
 
-      - name: Destroy gitlabrunner module
+      - name: Destroy glrunner module
         if: always()
         env:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
@@ -103,8 +106,13 @@ jobs:
 
           echo "Environment name is 'ci_${ENVIRONMENT_SUFFIX}'"
 
-          # destroy gitlabrunner
-          /tf/rover/rover.sh -lz ${GITHUB_WORKSPACE}/modules/gitlabrunner/example/ -var-folder ${GITHUB_WORKSPACE}/modules/gitlabrunner/example/configuration/runner -level level1 -env ${environment} -a destroy -auto-approve
+          # destroy glrunner
+          /tf/rover/rover.sh \
+            -lz ${GITHUB_WORKSPACE}/add-ons/glrunner/ \
+            -var-folder ${GITHUB_WORKSPACE}/add-ons/glrunner/example \
+            -level level1 \
+            -env "${environment}" \
+             -a destroy -auto-approve
 
       - name: Destroy launchpad
         if: always()
