@@ -23,4 +23,5 @@ module "glrunner" {
   gitlab_server_internal_ip = lookup(each.value, "gitlab_server_internal_ip", null)
   gitlab_server_fqdn        = lookup(each.value, "gitlab_server_fqdn", null)
   gitlab_server_token       = lookup(each.value, "gitlab_server_token", null)
+  vnet_subnet       = lookup(each.value, "gitlab_server_subnet_name", null)  
 }
