@@ -4,8 +4,8 @@ locals {
   location            = data.azurerm_resource_group.resource_group.location
 
   vm_admin_username    = var.vm_admin_username != null ? var.vm_admin_username : local._default_admin.username
-  vm_admin_public_key  = var.vm_admin_public_key #!= null ? var.vm_admin_public_key : local._default_admin.public_key
-  vm_admin_private_key = var.vm_admin_private_key #!= null ? var.vm_admin_private_key : local._default_admin.private_key
+  vm_admin_public_key  = var.vm_admin_public_key != null ? var.vm_admin_public_key : local._default_admin.public_key
+  vm_admin_private_key = var.vm_admin_private_key != null ? var.vm_admin_private_key : local._default_admin.private_key
 
   vm_prefix  = var.vm_prefix != null ? var.vm_prefix : local._default_vm.prefix
   vm_size    = var.vm_size != null ? var.vm_size : local._default_vm.size
@@ -16,7 +16,7 @@ locals {
   vm_image_sku       = var.vm_image_sku != null ? var.vm_image_sku : local._default_vm_image.sku
   vm_image_version   = var.vm_image_version != null ? var.vm_image_version : local._default_vm_image.version
 
-  gitlab_server_cert   = var.gitlab_server_cert # != null ? var.gitlab_server_cert : local._default_glserver.cert
+  gitlab_server_cert   = var.gitlab_server_cert != null ? var.gitlab_server_cert : local._default_glserver.cert
   gitlab_server_internal_ip = var.gitlab_server_internal_ip
   gitlab_server_fqdn        = var.gitlab_server_fqdn
   gitlab_server_token       = var.gitlab_server_token
