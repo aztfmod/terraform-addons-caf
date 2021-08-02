@@ -23,7 +23,7 @@ variable "vnet_subnet" {
   default     = null
 }
 
-variable "gitlab_server_cert_path" {
+variable "gitlab_server_cert" {
   description = "TODO"
   type        = string
   default     = null
