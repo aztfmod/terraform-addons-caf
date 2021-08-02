@@ -70,11 +70,19 @@ jobs:
       - name: Deploying glrunner add-on
         env:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+          GLRUNNER_PRIVATE_KEY: ${{ secrets.GLRUNNER_PRIVATE_KEY }}
+          GLRUNNER_PUBLIC_KEY: ${{ secrets.GLRUNNER_PUBLIC_KEY }}
+          GLRUNNER_SERVER_CERT: ${{ secrets.GLRUNNER_SERVER_CERT }}
+          GLRUNNER_SERVER_TOKEN: ${{ secrets.GLRUNNER_SERVER_TOKEN }}
         run: |
           export ARM_CLIENT_SECRET=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientSecret")
           export ARM_CLIENT_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".clientId")
           export ARM_SUBSCRIPTION_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".subscriptionId")
           export ARM_TENANT_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".tenantId")
+
+          echo "${GLRUNNER_PRIVATE_KEY}" > "${GITHUB_WORKSPACE}/id_rsa"
+          echo "${GLRUNNER_PUBLIC_KEY}" > "${GITHUB_WORKSPACE}/id_rsa.pub"
+          echo "${GLRUNNER_SERVER_CERT}" > "${GITHUB_WORKSPACE}/server.crt"
 
           ENVIRONMENT_SUFFIX=${{ github.run_id }}
 
