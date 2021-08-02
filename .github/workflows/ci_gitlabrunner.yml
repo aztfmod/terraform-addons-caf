@@ -83,6 +83,7 @@ jobs:
           echo "${GLRUNNER_PRIVATE_KEY}" > "${GITHUB_WORKSPACE}/id_rsa"
           echo "${GLRUNNER_PUBLIC_KEY}" > "${GITHUB_WORKSPACE}/id_rsa.pub"
           echo "${GLRUNNER_SERVER_CERT}" > "${GITHUB_WORKSPACE}/server.crt"
+          export TF_VAR_gitlab_server_token="${GLRUNNER_SERVER_TOKEN}"
 
           ENVIRONMENT_SUFFIX=${{ github.run_id }}
 
