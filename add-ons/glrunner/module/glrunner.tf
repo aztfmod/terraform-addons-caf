@@ -113,7 +113,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   }
 
   provisioner "file" {
-    source      = local.gitlab_server_cert_path
+    source      = local.gitlab_server_cert
     destination = "~/custom-agent/gitlab.crt"
 
     connection {
@@ -125,7 +125,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   }
 
   provisioner "file" {
-    source      = local.gitlab_server_cert_path
+    source      = local.gitlab_server_cert
     destination = "~/gitlab.crt"
 
     connection {

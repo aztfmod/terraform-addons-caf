@@ -87,7 +87,7 @@ jobs:
           export TF_VAR_vm_admin_public_key="${GITHUB_WORKSPACE}/id_rsa.pub"
 
           echo "${GLRUNNER_SERVER_CERT}" > "${GITHUB_WORKSPACE}/server.crt"
-          export TF_VAR_gitlab_server_cert_path="${GITHUB_WORKSPACE}/server.crt"
+          export TF_VAR_gitlab_server_cert="${GITHUB_WORKSPACE}/server.crt"
 
           export TF_VAR_gitlab_server_token="${GLRUNNER_SERVER_TOKEN}"
 
