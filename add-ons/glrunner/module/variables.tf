@@ -119,3 +119,7 @@ variable "full_mode" {
   type        = bool
   default     = null
 }
+
+variable "envs" {
+  default = {}
+}
