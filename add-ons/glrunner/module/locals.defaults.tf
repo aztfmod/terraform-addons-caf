@@ -2,8 +2,6 @@
 locals {
   _default_admin = {
     username    = "gitlab"
-    public_key  = "id_rsa.pub"
-    private_key = "id_rsa"
   }
   _default_vm = {
     prefix  = "glrunner"
@@ -15,9 +13,6 @@ locals {
     offer     = "Premium_LRS"
     sku       = "18.04-LTS"
     version   = "latest"
-  }
-  _default_glserver = {
-    cert_path = "server.crt"
   }
   _default_full_mode = false
 }

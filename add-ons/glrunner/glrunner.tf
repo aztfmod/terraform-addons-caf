@@ -19,7 +19,6 @@ module "glrunner" {
   vm_image_sku       = lookup(each.value, "vm_image_sku", null)
   vm_image_version   = lookup(each.value, "vm_image_version", null)
 
-  gitlab_server_cert_path   = lookup(each.value, "gitlab_server_cert_path", null)
   gitlab_server_internal_ip = lookup(each.value, "gitlab_server_internal_ip", null)
   gitlab_server_fqdn        = lookup(each.value, "gitlab_server_fqdn", null)
   vnet_subnet               = lookup(each.value, "gitlab_server_subnet_name", null)  
