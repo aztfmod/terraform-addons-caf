@@ -2,8 +2,8 @@
 locals {
   _default_admin = {
     username    = "gitlab"
-    public_key  = "./id_rsa.pub"
-    private_key = "./id_rsa"
+    #public_key  = "./id_rsa.pub"
+    #private_key = "./id_rsa"
   }
   _default_vm = {
     prefix  = "glrunner"
@@ -17,7 +17,7 @@ locals {
     version   = "latest"
   }
   _default_glserver = {
-    cert = "./server.crt"
+    #cert = "./server.crt"
   }
   _default_full_mode = false
 }
