@@ -17,7 +17,7 @@ locals {
     version   = "latest"
   }
   _default_glserver = {
-    cert_path = "${path.root}/server.crt"
+    cert = "${path.root}/server.crt"
   }
   _default_full_mode = false
 }
