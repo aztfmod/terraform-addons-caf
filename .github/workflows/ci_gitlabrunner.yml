@@ -81,13 +81,13 @@ jobs:
           export ARM_TENANT_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".tenantId")
 
           echo "${GLRUNNER_PRIVATE_KEY}" > "${GITHUB_WORKSPACE}/id_rsa"
-          #export TF_VAR_vm_admin_private_key="${GITHUB_WORKSPACE}/id_rsa"
+          export TF_VAR_vm_admin_private_key="${GITHUB_WORKSPACE}/id_rsa"
 
           echo "${GLRUNNER_PUBLIC_KEY}" > "${GITHUB_WORKSPACE}/id_rsa.pub"
-          #export TF_VAR_vm_admin_public_key="${GITHUB_WORKSPACE}/id_rsa.pub"
+          export TF_VAR_vm_admin_public_key="${GITHUB_WORKSPACE}/id_rsa.pub"
 
           echo "${GLRUNNER_SERVER_CERT}" > "${GITHUB_WORKSPACE}/server.crt"
-          #export TF_VAR_gitlab_server_cert="${GITHUB_WORKSPACE}/server.crt"
+          export TF_VAR_gitlab_server_cert="${GITHUB_WORKSPACE}/server.crt"
 
           export TF_VAR_gitlab_server_token="${GLRUNNER_SERVER_TOKEN}"
 
