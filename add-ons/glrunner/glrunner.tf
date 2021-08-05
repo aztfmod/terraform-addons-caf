@@ -24,5 +24,5 @@ module "glrunner" {
   gitlab_server_fqdn        = lookup(each.value, "gitlab_server_fqdn", null)
   vnet_subnet               = lookup(each.value, "gitlab_server_subnet_name", null)
   
-  ci_workspace        = lookup(each.value, "ci_workspace", null)
+  #ci_workspace        = lookup(each.value, "ci_workspace", null)
 }
