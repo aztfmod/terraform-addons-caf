@@ -80,12 +80,14 @@ jobs:
           export ARM_SUBSCRIPTION_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".subscriptionId")
           export ARM_TENANT_ID=$(echo "${AZURE_CREDENTIALS}" | jq -r ".tenantId")
 
-          echo "${GLRUNNER_PRIVATE_KEY}" > "${GITHUB_WORKSPACE}/id_rsa"
-          echo "${GLRUNNER_PUBLIC_KEY}" > "${GITHUB_WORKSPACE}/id_rsa.pub"
-          echo "${GLRUNNER_SERVER_CERT}" > "${GITHUB_WORKSPACE}/server.crt"
+          echo "${GLRUNNER_PRIVATE_KEY}" > "${GITHUB_WORKSPACE}/add-ons/glrunner/id_rsa"
+          echo "${GLRUNNER_PUBLIC_KEY}" > "${GITHUB_WORKSPACE}/add-ons/glrunner/id_rsa.pub"
+          echo "${GLRUNNER_SERVER_CERT}" > "${GITHUB_WORKSPACE}/add-ons/glrunner/server.crt"
+
+          echo "${GITHUB_WORKSPACE}"
 
           export TF_VAR_gitlab_server_token="${GLRUNNER_SERVER_TOKEN}"
-          export TF_VAR_ci_workspace="${GITHUB_WORKSPACE}"
+          # export TF_VAR_ci_workspace="${GITHUB_WORKSPACE}"
 
           ENVIRONMENT_SUFFIX=${{ github.run_id }}
 

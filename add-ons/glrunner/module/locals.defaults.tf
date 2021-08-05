@@ -20,5 +20,5 @@ locals {
     cert = "server.crt"
   }
   _default_full_mode = false
-  _default_ci_workspace = "~"
+  # _default_ci_workspace = "~"
 }

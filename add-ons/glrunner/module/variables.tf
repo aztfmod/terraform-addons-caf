@@ -120,11 +120,11 @@ variable "full_mode" {
   default     = null
 }
 
-variable "ci_workspace" {
-  description = "TODO"
-  type        = string
-}
+# variable "ci_workspace" {
+#   description = "TODO"
+#   type        = string
+# }
 
-variable "envs" {
-  default = {}
-}
+# # variable "envs" {
+# #   default = {}
+# # }
