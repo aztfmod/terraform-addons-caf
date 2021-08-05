@@ -101,7 +101,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   custom_data = filebase64("${path.module}/runner/cloud-config.yml")
 
   provisioner "file" {
-    source      = "./runner/custom-agent"
+    source      = "${path.module}/runner/custom-agent"
     destination = "~/"
 
     connection {
@@ -137,7 +137,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   }
 
   provisioner "file" {
-    source      = "./runner/cloudinitstatus.sh"
+    source      = "${path.module}/runner/cloudinitstatus.sh"
     destination = "~/cloudinitstatus.sh"
 
     connection {
