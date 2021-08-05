@@ -33,7 +33,8 @@ locals {
   # gitlab_server_cert = "${local.envs.ci_workspace}/${local.gitlab_server_cert_tmp}"
   gitlab_server_internal_ip = var.gitlab_server_internal_ip
   gitlab_server_fqdn        = var.gitlab_server_fqdn
-  gitlab_server_token       = var.gitlab_server_token
+  #gitlab_server_token       = var.gitlab_server_token
+  gitlab_server_token = var.gitlab_server_token != null ? file(var.gitlab_server_token) : file(local._default_glserver.token)
 
   subnet_id = "${data.azurerm_resources.vnet.resources[0].id}/subnets/${var.vnet_subnet}"
 

@@ -18,6 +18,7 @@ locals {
   }
   _default_glserver = {
     cert = "server.crt"
+    token = "token.txt"
   }
   _default_full_mode = false
   # _default_ci_workspace = "~"
