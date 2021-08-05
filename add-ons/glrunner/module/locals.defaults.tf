@@ -11,8 +11,8 @@ locals {
     storage = "Premium_LRS"
   }
   _default_vm_image = {
-    publisher = "Standard_D8s_v3"
-    offer     = "Premium_LRS"
+    publisher = "Canonical"
+    offer     = "UbuntuServer"
     sku       = "18.04-LTS"
     version   = "latest"
   }
