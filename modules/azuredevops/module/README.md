@@ -1,6 +1,8 @@
 # Azure DevOps
 
-This submodule is part of [Cloud Adoption Framework](https://github.com/aztfmod/terraform-azurerm-caf) landing zones for [Azure on Terraform](https://github.com/terraform-providers/terraform-provider-azurerm).
+> :warning: This solution, offered by the Open-Source community, will no longer receive contributions from Microsoft.
+
+This submodule is part of [Azure Terraform SRE](https://github.com/aztfmod/terraform-azurerm-caf) landing zones for [Azure](https://github.com/terraform-providers/terraform-provider-azurerm).
 
 You can instantiate this submodule directly using the following parameters:
 

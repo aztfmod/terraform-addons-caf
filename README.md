@@ -1,3 +1,5 @@
 # terraform-addons-caf
 
-CAF Modules for DevOps Orchestrators
+> :warning: This solution, offered by the Open-Source community, will no longer receive contributions from Microsoft.
+
+Azure Terraform SRE Modules for DevOps Orchestrators

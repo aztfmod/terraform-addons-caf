@@ -1,11 +1,16 @@
 # Jenkins CAF Module - For creating jenkins folders and jobs
-# Assumptions: 
+
+# Assumptions
+
 # 1. The Jenkins server is installed in Azure and there's a public url and CA cert available
-# 2. The Jenkins installation that uses this resource is expected to have the Cloudbees Folders Plugin installed in their system.
-# 3. Jenkins pipeline plugin installed - https://plugins.jenkins.io/workflow-cps/
 
+# 2. The Jenkins installation that uses this resource is expected to have the Cloudbees Folders Plugin installed in their system
 
-This submodule is part of [Cloud Adoption Framework](https://github.com/aztfmod/terraform-azurerm-caf) landing zones for [Jenkins on Terraform](https://github.com/taiidani/terraform-provider-jenkins).
+# 3. Jenkins pipeline plugin installed - <https://plugins.jenkins.io/workflow-cps/>
+
+> :warning: This solution, offered by the Open-Source community, will no longer receive contributions from Microsoft.
+
+This submodule is part of [Azure Terraform SRE](https://github.com/aztfmod/terraform-azurerm-caf) landing zones for [Jenkins on Terraform](https://github.com/taiidani/terraform-provider-jenkins).
 
 You can instantiate this submodule directly using the following parameters:
 
@@ -76,7 +81,7 @@ rover -lz /tf/caf/examples/ -var-folder /tf/caf/examples/jenkins/new_project/ -l
 If you want to change the Jenkins project configuration or project variables, see the example configuration in [examples/jenkins/new_project/jenkins_project.tfvars](./examples/jenkins/new_project/jenkins_project.tfvars) file;
 
 note: If you are using folders, the Jenkins installation that uses this resource is expected to have the Cloudbees Folders Plugin installed in their system.
-For more details on the parameters, please refer to: https://registry.terraform.io/providers/taiidani/jenkins/latest/docs/resources/job
+For more details on the parameters, please refer to: <https://registry.terraform.io/providers/taiidani/jenkins/latest/docs/resources/job>
 
 ```terraform
 jenkins_projects = {

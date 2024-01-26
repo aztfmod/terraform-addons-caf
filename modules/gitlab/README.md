@@ -1,6 +1,8 @@
 # GitLab CAF Module
 
-This submodule is part of [Cloud Adoption Framework](https://github.com/aztfmod/terraform-azurerm-caf) landing zones for [GitLab on Terraform](https://github.com/gitlabhq/terraform-provider-gitlab).
+> :warning: This solution, offered by the Open-Source community, will no longer receive contributions from Microsoft.
+
+This submodule is part of [Azure Terraform SRE](https://github.com/aztfmod/terraform-azurerm-caf) landing zones for [GitLab on Terraform](https://github.com/gitlabhq/terraform-provider-gitlab).
 
 You can instantiate this submodule directly using the following parameters:
 
