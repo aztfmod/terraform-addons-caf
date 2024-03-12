@@ -1,6 +1,8 @@
 # GitHub CAF Module
 
-This submodule is part of [Cloud Adoption Framework](https://github.com/aztfmod/terraform-azurerm-caf) landing zones for [GitHub on Terraform](https://github.com/githubhq/terraform-provider-github).
+> :warning: This solution, offered by the Open-Source community, will no longer receive contributions from Microsoft.
+
+This submodule is part of [Azure Terraform SRE](https://github.com/aztfmod/terraform-azurerm-caf) landing zones for [GitHub on Terraform](https://github.com/githubhq/terraform-provider-github).
 
 You can instantiate this submodule directly using the following parameters:
 
